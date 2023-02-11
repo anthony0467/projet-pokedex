@@ -45,16 +45,13 @@ export default {
       this.close = this.close === 'initial' ? 'invisible' : 'initial'; // fermeture et ouverture du MENU
 
     },
-    /*changeWidth(){
-      this.$emit('test');
-      
-    }*/
-  },
-  watch: {
-    messageInput(newMessage) {
-      this.$emit('message-changed', newMessage)
+   
+    // recherche pokemon composant search
+    handleSearch(value) { 
+      this.$emit('search', value)
     }
-  }
+  },
+
 
 }
 
@@ -66,7 +63,7 @@ export default {
       <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style="cursor:pointer; color: #fff;
 	font-size: 25px; padding: 1rem;"></i>
     </div>
-    <search @message-changed="messageInput" :apiResponse="apiResponse" />
+    <search @search="handleSearch" :apiResponse="apiResponse" />
     <ul>
       <li v-for="menu in menus">
         <buttonMenu :menu="menu" />

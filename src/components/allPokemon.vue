@@ -8,7 +8,7 @@ export default {
     },
     filteredPokemon: {
       type: Array,
-      required: true,
+      required: false,
       default: () => []
     },
     color: {
@@ -17,6 +17,10 @@ export default {
     },
     api: {
       type: Object
+    },
+    message: {
+      type: String,
+      default: ""
     }
   },
 
@@ -29,15 +33,27 @@ export default {
   methods: {
     addDetailPok(api) { // ajout de ma fiche detaillé pokemon au clic
       this.$emit('detail', api)
+    },
+
+    searchPokemon(message) {
+      this.message = message;
     }
-  }
+  },
+  computed:{
+    // filtrer mes pokemons 
+    filteredPokemon() {
+      return this.apiResponse.filter((api) => {
+        return api.name.toLowerCase().includes(this.message.toLowerCase())
+      })
+    }
+  },
 
 }
 
 </script>
 
 <template>
-  <div v-for="api in apiResponse" :key="api" @click="addDetailPok(api)">
+  <div v-for="api in filteredPokemon" :key="api" @click="addDetailPok(api)">
     <h3 :style="{ color: color }">{{ api.name }}</h3>
     <img style="max-width: 300px;" :src="api.image" :alt="api.name" :title="api.name">
   </div>

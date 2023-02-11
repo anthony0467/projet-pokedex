@@ -19,7 +19,7 @@ export default {
       bgMain: 'bg-90',
       emptyArray: [], // tableau fiche détaillé pokemon
       effect: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)', // effet rideau menu
-      filterMessage: ''
+      message:''
     }
   },
   computed: {
@@ -27,11 +27,6 @@ export default {
       return this.apiResponse.slice(0, 3)
     },
 
-    filteredPokemon() {
-      return this.apiResponse.filter((api) => {
-        return api.name.includes(this.filteredMessage)
-      })
-    }
 
   },
 
@@ -49,13 +44,14 @@ export default {
         targetElement.scrollIntoView({ behavior: 'smooth' }) // scroll vers l'element
       }
       this.emptyArray.push(api) // ajouter mon élément
-
-
     },
-    handleMessage() {
-      this.filterMessage = messageInput
+    
+    // recherche pokemon composant menuPod / search
+    searchPokemon(value) {
+      this.message = value
     }
   },
+  
 
   created() { // API POKEMON
     axios.get('https://pokebuildapi.fr/api/v1/pokemon/generation/1')
@@ -72,7 +68,7 @@ export default {
 
 <template>
   <header>
-    <menuPod @message-changed="handleMessage" :apiResponse="apiResponse" :class="bgMain" @change-width="rideau" />
+    <menuPod @search="searchPokemon" :apiResponse="apiResponse" :class="bgMain" @change-width="rideau" />
     <!--MENU-->
 
   </header>
@@ -82,8 +78,7 @@ export default {
     <!--Fiche détaillé pokemon-->
 
     <ul>
-      <allPokemon :color="titleColor2" :apiResponse="apiResponse" @detail="addDetailPok"
-        :filteredPokemon="filteredPokemon" /> <!--Liste Pokemon-->
+      <allPokemon :message="message" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse" @detail="addDetailPok" /> <!--Liste Pokemon-->
     </ul>
 
 
