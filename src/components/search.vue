@@ -18,6 +18,10 @@ export default{
         searchPok(){
             this.$emit('search',this.message)
             this.message = ''
+        },
+        // renvoi la liste complete des pokemons 
+        completeList(){
+            return this.apiResponse
         }
     },
     
@@ -28,7 +32,10 @@ export default{
 <template>
     <form @submit.prevent="searchPok" id="the_form" action="" >
         <input @click="test" id="searchinput" name="searchinput" type="text" placeholder="Rechercher mon Pokémon"  v-model="message" >
-        <button type="submit" value="search">Rechercher</button>
+        <div>
+            <button type="submit" value="search">Rechercher</button>
+            <button @click="completeList">Reinitialiser</button>
+        </div>
     </form>
     
 </template>

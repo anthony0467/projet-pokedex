@@ -8,7 +8,7 @@ export default {
     },
     filteredPokemon: {
       type: Array,
-      required: false,
+      required: true,
       default: () => []
     },
     color: {
