@@ -1,16 +1,13 @@
 <script>
 export default {
+  emits: ['search', 'detail'],
   props: {
     apiResponse: {
       type: Array,
       required: true,
       default: () => []
     },
-    filteredPokemon: {
-      type: Array,
-      required: true,
-      default: () => []
-    },
+  
     color: {
       type: String,
       default: 'white'

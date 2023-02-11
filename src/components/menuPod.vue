@@ -4,6 +4,7 @@ import aleatoirePok from './aleatoirePok.vue'
 import buttonMenu from './buttons/buttonMenu.vue';
 import search from './search.vue';
 export default {
+  emits: ['search', 'change-width'],
   components: {
     buttonMenu,
     aleatoirePok,
@@ -11,6 +12,11 @@ export default {
   },
   props: {
     apiResponse: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    emptyArray: {
       type: Array,
       required: true,
       default: () => []
@@ -63,7 +69,7 @@ export default {
       <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style="cursor:pointer; color: #fff;
 	font-size: 25px; padding: 1rem;"></i>
     </div>
-    <search @search="handleSearch" :apiResponse="apiResponse" />
+    <search @search="handleSearch" :apiResponse="apiResponse" :emptyArray="emptyArray"/>
     <ul>
       <li v-for="menu in menus">
         <buttonMenu :menu="menu" />

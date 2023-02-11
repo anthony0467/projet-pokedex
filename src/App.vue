@@ -45,7 +45,7 @@ export default {
       }
       this.emptyArray.push(api) // ajouter mon élément
     },
-    
+
     // recherche pokemon composant menuPod / search
     searchPokemon(value) {
       this.message = value
@@ -68,7 +68,7 @@ export default {
 
 <template>
   <header>
-    <menuPod @search="searchPokemon" :apiResponse="apiResponse" :class="bgMain" @change-width="rideau" />
+    <menuPod @search="searchPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :emptyArray="emptyArray" />
     <!--MENU-->
 
   </header>

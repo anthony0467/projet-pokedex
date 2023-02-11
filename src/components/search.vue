@@ -5,6 +5,11 @@ export default{
             type: Array,
             required: true,
             default:() => []
+        },
+        emptyArray: {
+            type: Array,
+            required: true,
+            default:() => []
         }
     },
 
@@ -21,7 +26,8 @@ export default{
         },
         // renvoi la liste complete des pokemons 
         completeList(){
-            return this.apiResponse
+            this.apiResponse
+            this.emptyArray.splice(0, 1)
         }
     },
     

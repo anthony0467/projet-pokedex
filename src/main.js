@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
 import App from './App.vue'
-
+/*
 const store = createStore({
     state () {
       return {
@@ -16,8 +16,9 @@ const store = createStore({
   })
 
   store.commit('emptyArray')
-  console.log(store.state.emptyArray)
+  console.log(store.state.emptyArray)*/
 
 import './assets/main.css'
 
-createApp(App).use(store).mount('#app')
+createApp(App).mount('#app')
+//.use(store)
