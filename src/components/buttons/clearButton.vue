@@ -1,12 +1,6 @@
 <script>
 export default {
-    props: {
-        emptyArray: {
-            type: Array,
-            required: true,
-            default: () => []
-        }
-    },
+   
     methods: {
         clear() {
             this.$emit('clearArray')

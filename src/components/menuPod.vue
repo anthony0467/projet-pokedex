@@ -16,11 +16,7 @@ export default {
       required: true,
       default: () => []
     },
-    emptyArray: {
-      type: Array,
-      required: true,
-      default: () => []
-    },
+    
     color: {
       type: String,
       default: 'red'
@@ -29,6 +25,10 @@ export default {
       type: String,
       default: 'bg-90'
     },
+    clear: {
+            type: Function,
+            required: true,
+         },
 
   },
 
@@ -49,7 +49,7 @@ export default {
     rideau() {
       this.$emit('change-width');
       this.close = this.close === 'initial' ? 'invisible' : 'initial'; // fermeture et ouverture du MENU
-
+    
     },
    
     // recherche pokemon composant search
@@ -69,7 +69,7 @@ export default {
       <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style="cursor:pointer; color: #fff;
 	font-size: 25px; padding: 1rem;"></i>
     </div>
-    <search @search="handleSearch" :apiResponse="apiResponse" :emptyArray="emptyArray"/>
+    <search @search="handleSearch" :apiResponse="apiResponse" :rideau="rideau" :clear="clear"/>
     <ul>
       <li v-for="menu in menus">
         <buttonMenu :menu="menu" />

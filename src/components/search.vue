@@ -6,11 +6,16 @@ export default{
             required: true,
             default:() => []
         },
-        emptyArray: {
-            type: Array,
+        
+        rideau: {
+            type: Function,
             required: true,
-            default:() => []
-        }
+            
+        },
+        clear: {
+            type: Function,
+            required: true,
+         },
     },
 
     data(){
@@ -24,10 +29,17 @@ export default{
             this.$emit('search',this.message)
             this.message = ''
         },
-        // renvoi la liste complete des pokemons 
+
+        // renvoi la liste complete des pokemons et efface la fiche detaillé si elle est ouverte
+
         completeList(){
             this.apiResponse
-            this.emptyArray.splice(0, 1)
+            this.clear()
+            //this.emptyArray.splice(0, 1)
+        },
+
+        rideauProp(){
+            this.rideau()
         }
     },
     
@@ -37,9 +49,9 @@ export default{
 
 <template>
     <form @submit.prevent="searchPok" id="the_form" action="" >
-        <input @click="test" id="searchinput" name="searchinput" type="text" placeholder="Rechercher mon Pokémon"  v-model="message" >
+        <input @click="test" id="searchinput" name="searchinput" type="text" placeholder="Rechercher mon Pokémon"  v-model="message" autocomplete="off" >
         <div>
-            <button type="submit" value="search">Rechercher</button>
+            <button @click="rideauProp" type="submit" value="search">Rechercher</button>
             <button @click="completeList">Reinitialiser</button>
         </div>
     </form>
@@ -47,6 +59,9 @@ export default{
 </template>
 
 <style scoped>
+div{
+    text-align: center;
+}
 
 form{
     margin: 0  2rem;

@@ -2,13 +2,14 @@
 import axios from 'axios'
 import menuPod from './components/menuPod.vue';
 import allPokemon from './components/allPokemon.vue';
-import detailPokemon from './components/detailPokemon.vue';
+import cardPokemon from './components/cardPokemon.vue';
 
 export default {
   components: {
     menuPod,
     allPokemon,
-    detailPokemon,
+    cardPokemon
+    
 
   },
 
@@ -17,9 +18,10 @@ export default {
       apiResponse: [], // API
       titleColor2: 'rgb(46,47,117)',
       bgMain: 'bg-90',
-      emptyArray: [], // tableau fiche détaillé pokemon
       effect: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)', // effet rideau menu
-      message:''
+      message:'',
+      selectedItem: null,
+      showTable: false
     }
   },
   computed: {
@@ -37,20 +39,38 @@ export default {
     },
 
     addDetailPok(api) {  //ajouter une fiche pokemon detaillé 
-      const targetElement = document.querySelector('#targetElement')
-
-      if (this.emptyArray.length > 0) {
-        this.emptyArray.splice(0, 1) //  suppresion du 1er element 
-        targetElement.scrollIntoView({ behavior: 'smooth' }) // scroll vers l'element
-      }
-      this.emptyArray.push(api) // ajouter mon élément
+      
+     this.selectedItem = api
+     this.showTable = true;
+     // changement d'état au clic !!
+       this.$nextTick(() => {
+        this.scrollToItem();
+      })
+     
     },
+
+    scrollToItem() { // scroll vers l'element cardPokemon
+      const targetElement = document.querySelector('#targetElement')
+      if (targetElement) {
+        targetElement?.scrollIntoView({ behavior: 'smooth' })
+      }
+    },
+
+    
+        clear() {
+           // effacer ma fiche détaillé sur le bouton
+          this.showTable = false 
+        }
+    ,
 
     // recherche pokemon composant menuPod / search
     searchPokemon(value) {
       this.message = value
     }
   },
+
+  // set changement boolean showtable
+ 
   
 
   created() { // API POKEMON
@@ -68,22 +88,16 @@ export default {
 
 <template>
   <header>
-    <menuPod @search="searchPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :emptyArray="emptyArray" />
     <!--MENU-->
-
+    <menuPod @search="searchPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
   </header>
 
   <main :class="bgMain">
-    <detailPokemon id="targetElement" :emptyArray="emptyArray" v-if="emptyArray.length > 0" />
     <!--Fiche détaillé pokemon-->
-
-    <ul>
-      <allPokemon :message="message" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse" @detail="addDetailPok" /> <!--Liste Pokemon-->
-    </ul>
-
-
-
-
+    <cardPokemon id="targetElement"  :apiResponse="apiResponse"  v-show="showTable" :selectedItem="selectedItem" :showTable="showTable" :clear="clear"/>
+  <!--Liste complète pokemon-->
+    <allPokemon :message="message" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse" @detail="addDetailPok" /> <!--Liste Pokemon-->
+    
   </main>
 </template>
 
@@ -103,10 +117,4 @@ export default {
   transition: .35s;
 }
 
-ul {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-}
 </style>
