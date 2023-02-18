@@ -21,15 +21,15 @@ export default {
 
   computed: {
     randomNum() {
-      return Math.floor(Math.random() * 151) + 1; // généré un nombre aléatoire entre 1 et 151;
+      return Math.floor(Math.random() * 897) + 1; // généré un nombre aléatoire entre 1 et 151;
     },
 
     filterPokTitle() {
-      return this.apiResponse.find((api) => api.id == this.randomNum)?.name  // récupéré le nom du pokemon aléatoirement en utilisant l'id 
+      return this.apiResponse?.find((api) => api?.id == this?.randomNum)?.name  // récupéré le nom du pokemon aléatoirement en utilisant l'id 
 
     },
     filterPokImg() {
-      return this.apiResponse.find((api) => api.id == this.randomNum)?.image // récupéré l'image du pokemon aléatoirement en utilisant l'id
+      return this.apiResponse?.find((api) => api?.id == this?.randomNum)?.image // récupéré l'image du pokemon aléatoirement en utilisant l'id
     }
   }
 

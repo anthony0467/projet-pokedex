@@ -3,23 +3,25 @@ import axios from 'axios'
 import menuPod from './components/menuPod.vue';
 import allPokemon from './components/allPokemon.vue';
 import cardPokemon from './components/cardPokemon.vue';
-
+import loading from './components/loading.vue';
+import loadingAlternative from './components/loadingAlternative.vue';
 export default {
   components: {
     menuPod,
     allPokemon,
-    cardPokemon
-    
+    cardPokemon,
+    loading,
+    loadingAlternative
 
   },
 
   data() {
     return {
-      apiResponse: [], // API
+      apiResponse: null, // API
       titleColor2: 'rgb(46,47,117)',
       bgMain: 'bg-90',
       effect: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)', // effet rideau menu
-      message:'',
+      message: '',
       selectedItem: null,
       showTable: false
     }
@@ -39,14 +41,14 @@ export default {
     },
 
     addDetailPok(api) {  //ajouter une fiche pokemon detaillé 
-      
-     this.selectedItem = api
-     this.showTable = true;
-     // changement d'état au clic !!
-       this.$nextTick(() => {
+
+      this.selectedItem = api
+      this.showTable = true;
+      // changement d'état au clic !!
+      this.$nextTick(() => {
         this.scrollToItem();
       })
-     
+
     },
 
     scrollToItem() { // scroll vers l'element cardPokemon
@@ -56,11 +58,11 @@ export default {
       }
     },
 
-    
-        clear() {
-           // effacer ma fiche détaillé sur le bouton
-          this.showTable = false 
-        }
+
+    clear() {
+      // effacer ma fiche détaillé sur le bouton
+      this.showTable = false
+    }
     ,
 
     // recherche pokemon composant menuPod / search
@@ -70,23 +72,28 @@ export default {
   },
 
   // set changement boolean showtable
- 
-  
 
-  created() { // API POKEMON
-    axios.get('https://pokebuildapi.fr/api/v1/pokemon/generation/1')
-      .then(response => {
-        this.apiResponse = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
+
+
+  async mounted() { // API POKEMON
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000)); //Chargement d'une seconde optionnelle
+      await axios.get('https://pokebuildapi.fr/api/v1/pokemon')
+        .then(response => {
+          this.apiResponse = response.data
+        })
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 }
 
 </script>
 
 <template>
+  <loadingAlternative v-if="!apiResponse"/>
+  <div v-else>
   <header>
     <!--MENU-->
     <menuPod @search="searchPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
@@ -94,11 +101,16 @@ export default {
 
   <main :class="bgMain">
     <!--Fiche détaillé pokemon-->
-    <cardPokemon id="targetElement"  :apiResponse="apiResponse"  v-show="showTable" :selectedItem="selectedItem" :showTable="showTable" :clear="clear"/>
-  <!--Liste complète pokemon-->
-    <allPokemon :message="message" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse" @detail="addDetailPok" /> <!--Liste Pokemon-->
-    
+    <cardPokemon id="targetElement" :apiResponse="apiResponse" v-show="showTable" :selectedItem="selectedItem"
+      :showTable="showTable" :clear="clear" />
+    <!--Liste complète pokemon-->
+     
+
+    <allPokemon :message="message" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse"
+      @detail="addDetailPok" /> <!--Liste Pokemon-->
+
   </main>
+</div>
 </template>
 
 <style scoped>
@@ -116,5 +128,8 @@ export default {
   max-width: 100%;
   transition: .35s;
 }
+
+
+
 
 </style>

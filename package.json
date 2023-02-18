@@ -10,6 +10,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "axios": "^1.2.6",
+    "jquery": "^3.6.3",
     "swiper": "^8.4.7",
     "vue": "^3.2.45",
     "vue-awesome-swiper": "^5.0.1",
