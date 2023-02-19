@@ -4,7 +4,7 @@ import aleatoirePok from './aleatoirePok.vue'
 import buttonMenu from './buttons/buttonMenu.vue';
 import search from './search.vue';
 export default {
-  emits: ['search', 'change-width'],
+  emits: ['search', 'change-width','selected-value'],
   components: {
     buttonMenu,
     aleatoirePok,
@@ -34,18 +34,15 @@ export default {
 
   data() {
     return {
-      menus: [{ id: 0, icon: 'fas fa-home', name: 'Home' },
-      { id: 1, icon: 'fa-solid fa-microphone-lines', name: 'Latest episodes' },
-      { id: 2, icon: 'fa-regular fa-floppy-disk', name: 'Saved' },
-      { id: 3, icon: 'fa-regular fa-window-maximize', name: 'Browse' },
-      { id: 4, icon: 'fa-regular fa-circle-down', name: 'Downloads' }
-      ],
       close: 'initial',
       //test: 'invisible',
-      name: ''
+      name: '',
+      typePok: ''
     }
   },
+  
   methods: {
+
     rideau() {
       this.$emit('change-width');
       this.close = this.close === 'initial' ? 'invisible' : 'initial'; // fermeture et ouverture du MENU
@@ -55,9 +52,19 @@ export default {
     // recherche pokemon composant search
     handleSearch(value) { 
       this.$emit('search', value)
-    }
+    },
+
+    filterTypePok(typePok) { 
+      this.$emit('filterPok', typePok)
+    },
+
+    handleSelectedValue(value) { // récupérer la valeur de mon champ select
+      this.$emit('selected-value', value);
+    },
   },
 
+
+  
 
 }
 
@@ -65,16 +72,11 @@ export default {
 
 <template>
   <div class="contain-podcast" :class="close">
-    <div class="contain-title-podcast">
+    <div class="contain-title-podcast"><p>{{ typePok }}</p>
       <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style="cursor:pointer; color: #fff;
 	font-size: 25px; padding: 1rem;"></i>
     </div>
-    <search @search="handleSearch" :apiResponse="apiResponse" :rideau="rideau" :clear="clear"/>
-    <ul>
-      <li v-for="menu in menus">
-        <buttonMenu :menu="menu" />
-      </li>
-    </ul>
+    <search @search="handleSearch" @selected-value="handleSelectedValue" :apiResponse="apiResponse" :rideau="rideau" :clear="clear"/>
     <aleatoirePok :apiResponse="apiResponse" /> <!--carte pokemon genéré aléatoirement-->
   </div>
 
@@ -89,7 +91,12 @@ export default {
   }
 }
 
-
+.contain-podcast{
+  display: flex;
+  flex-direction: column;
+    justify-content: space-between;
+    align-items: inherit;
+}
 .contain-title-podcast {
   display: flex;
   flex-direction: row;
@@ -141,4 +148,5 @@ li:hover {
   background: rgb(67, 68, 145);
   transition: .35s;
 }
+
 </style>

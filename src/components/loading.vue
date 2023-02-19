@@ -1,17 +1,3 @@
-<script>
-export default{
-
-
-    data(){
-        return{
-          message: ""
-        }
-    },
-    
-    
-}
-
-</script>
 
 <template>
    <div class="container">

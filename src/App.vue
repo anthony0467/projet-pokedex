@@ -22,6 +22,7 @@ export default {
       bgMain: 'bg-90',
       effect: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)', // effet rideau menu
       message: '',
+      typePok: '',
       selectedItem: null,
       showTable: false
     }
@@ -68,6 +69,11 @@ export default {
     // recherche pokemon composant menuPod / search
     searchPokemon(value) {
       this.message = value
+      
+    },
+
+    handleSelectedValue(value) { // récupérer la valeur de mon champ select
+      this.typePok = value;
     }
   },
 
@@ -96,7 +102,7 @@ export default {
   <div v-else>
   <header>
     <!--MENU-->
-    <menuPod @search="searchPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
+    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
   </header>
 
   <main :class="bgMain">
@@ -106,7 +112,7 @@ export default {
     <!--Liste complète pokemon-->
      
 
-    <allPokemon :message="message" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse"
+    <allPokemon :message="message" :typePok="typePok" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse"
       @detail="addDetailPok" /> <!--Liste Pokemon-->
 
   </main>

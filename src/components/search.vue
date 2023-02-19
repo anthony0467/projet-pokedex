@@ -20,13 +20,15 @@ export default{
 
     data(){
         return{
-          message: ""
+          message: "", // recherche par nom 
+          typePok: "", // recherche par type
         }
     },
     methods:{
         // recherché le pokemon en utilisant la data message 
         searchPok(){
             this.$emit('search',this.message)
+            this.$emit('filterPok',this.typePok)
             this.message = ''
         },
 
@@ -40,8 +42,20 @@ export default{
 
         rideauProp(){
             this.rideau()
+        },
+        
+        emitSelectedValue() {
+            this.$emit('selected-value', this.typePok);
         }
     },
+    
+    
+    computed:{
+        filterType(){ // set = récupérer valeur unique dans un tableau
+            return [...new Set(this.apiResponse.map(api => api.apiTypes[0].name))];
+         }
+    }
+         
     
 }
 
@@ -54,11 +68,28 @@ export default{
             <button @click="rideauProp" type="submit" value="search">Rechercher</button>
             <button @click="completeList">Reinitialiser</button>
         </div>
+        <select v-model="typePok" @change="emitSelectedValue"><p>{{ typePok }}</p>
+            <option disabled value="">Selectionner un type</option>
+            <option value="all">Tous</option>
+            <option :value="api" v-for="api in filterType" :key="api">{{ api }}</option>
+        </select>
     </form>
     
 </template>
 
 <style scoped>
+
+@media screen and (min-width: 750px) {
+  select{
+    font-size: 16px;
+    padding: 0.5rem 2rem;
+  }
+
+  input{
+    font-size: 18px!important;
+  }
+}
+
 div{
     text-align: center;
 }
@@ -68,16 +99,26 @@ form{
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
+
 }
 
 input{
     text-align: center;
-    font-size: 18px;
+    font-size: 12px;
     padding: .75rem 0.75rem;
     width: 70%;
     border:none;
     border-radius: 25px;
 }
+
+select{
+    margin-top: 2rem;
+    padding: 0.25rem 1rem;
+    border-radius: 25px;
+    font-family: 'Montserrat';
+}
+
 
 button{
     margin-top: 1rem;

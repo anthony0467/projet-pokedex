@@ -18,7 +18,12 @@ export default {
     message: {
       type: String,
       default: ""
+    },
+    typePok:{
+      type: String,
+      default: ''
     }
+    
   },
 
   data() {
@@ -34,14 +39,35 @@ export default {
 
     searchPokemon(message) {
       this.message = message;
+    },
+    filterTypePok(typePok){
+      this.typePok = typePok;
     }
   },
   computed:{
     // filtrer mes pokemons 
     filteredPokemon() {
-      return this.apiResponse.filter((api) => {
+      if(this.message){
+        return this.apiResponse.filter((api) => {
         return api.name.toLowerCase().includes(this.message.toLowerCase())
       })
+      }
+      if(this.typePok){
+        switch(this.typePok){
+          case 'all':
+            return this.apiResponse;
+          break;
+          case this.typePok:
+          return this.apiResponse.filter((api) => {
+            for(let i =0; i <= api.apiTypes.length; i++){
+             return  api.apiTypes[i].name == this.typePok
+            }
+          })
+          break;
+          
+        }
+      }
+      return this.apiResponse;
     }
   },
 
@@ -51,7 +77,7 @@ export default {
 
 <template>
   <div class="container">
-    <div v-for="api in filteredPokemon" :key="api" @click="addDetailPok(api)">
+    <div class="zoom" v-for="api in filteredPokemon" :key="api" @click="addDetailPok(api)">
       <h3 :style="{ color: color }">{{ api.name }}</h3>
       <img style="max-width: 300px;" :src="api.image" :alt="api.name" :title="api.name">
    </div>
@@ -66,6 +92,14 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+}
+
+.zoom{
+  transition: .35s;
+}
+.zoom:hover{
+  transform: scale(1.1);
+  transition: .35s;
 }
 
 div {
