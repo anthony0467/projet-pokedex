@@ -15,7 +15,7 @@ export default{
         clear: {
             type: Function,
             required: true,
-         },
+         }
     },
 
     data(){
@@ -35,7 +35,7 @@ export default{
         // renvoi la liste complete des pokemons et efface la fiche detaillé si elle est ouverte
 
         completeList(){
-            this.apiResponse
+            this.$emit('reset-all-pokemons')
             this.clear()
             //this.emptyArray.splice(0, 1)
         },
@@ -62,7 +62,7 @@ export default{
 </script>
 
 <template>
-    <form @submit.prevent="searchPok" id="the_form" action="" >
+    <form @submit.prevent="searchPok" id="the_form">
         <input @click="test" id="searchinput" name="searchinput" type="text" placeholder="Rechercher mon Pokémon"  v-model="message" autocomplete="off" >
         <div>
             <button @click="rideauProp" type="submit" value="search">Rechercher</button>

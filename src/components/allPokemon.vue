@@ -22,7 +22,7 @@ export default {
     typePok:{
       type: String,
       default: ''
-    }
+    },
     
   },
 
@@ -47,20 +47,22 @@ export default {
   computed:{
     // filtrer mes pokemons 
     filteredPokemon() {
-      if(this.message){
+      if(this.message){ // filtrer par recherche de nom 
         return this.apiResponse.filter((api) => {
         return api.name.toLowerCase().includes(this.message.toLowerCase())
       })
       }
-      if(this.typePok){
+      if(this.typePok){ // filtrer par type de pokemon
         switch(this.typePok){
-          case 'all':
+          case 'all': // récupérer tous les pokemons
             return this.apiResponse;
           break;
-          case this.typePok:
+          case this.typePok: // récupérer en fonction du type
           return this.apiResponse.filter((api) => {
-            for(let i =0; i <= api.apiTypes.length; i++){
-             return  api.apiTypes[i].name == this.typePok
+            for(let i =0; i <= api.apiTypes.length; i++){ // récupérer tous les types de chaque pokemon
+              if (api.apiTypes[i]?.name?.includes(this.typePok)) { // vrai si un des types correspond
+              return true;
+            }
             }
           })
           break;
@@ -68,6 +70,10 @@ export default {
         }
       }
       return this.apiResponse;
+    },
+
+    initialList(){
+            return this.apiResponse;
     }
   },
 

@@ -74,7 +74,11 @@ export default {
 
     handleSelectedValue(value) { // récupérer la valeur de mon champ select
       this.typePok = value;
-    }
+    },
+
+   resetAllPokemon(){
+    this.typePok = ''
+   }
   },
 
   // set changement boolean showtable
@@ -98,11 +102,11 @@ export default {
 </script>
 
 <template>
-  <loadingAlternative v-if="!apiResponse"/>
+  <loading v-if="!apiResponse"/>
   <div v-else>
   <header>
     <!--MENU-->
-    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
+    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
   </header>
 
   <main :class="bgMain">

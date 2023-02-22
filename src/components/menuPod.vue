@@ -4,7 +4,7 @@ import aleatoirePok from './aleatoirePok.vue'
 import buttonMenu from './buttons/buttonMenu.vue';
 import search from './search.vue';
 export default {
-  emits: ['search', 'change-width','selected-value'],
+  emits: ['search', 'change-width','selected-value', 'reset-all-pokemons'],
   components: {
     buttonMenu,
     aleatoirePok,
@@ -61,6 +61,9 @@ export default {
     handleSelectedValue(value) { // récupérer la valeur de mon champ select
       this.$emit('selected-value', value);
     },
+    resetAllPokemon(){
+      this.$emit('reset-all-pokemons')
+    }
   },
 
 
@@ -76,7 +79,7 @@ export default {
       <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style="cursor:pointer; color: #fff;
 	font-size: 25px; padding: 1rem;"></i>
     </div>
-    <search @search="handleSearch" @selected-value="handleSelectedValue" :apiResponse="apiResponse" :rideau="rideau" :clear="clear"/>
+    <search @search="handleSearch" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse"  :rideau="rideau" :clear="clear"/>
     <aleatoirePok :apiResponse="apiResponse" /> <!--carte pokemon genéré aléatoirement-->
   </div>
 
