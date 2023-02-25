@@ -4,7 +4,7 @@ import aleatoirePok from './aleatoirePok.vue'
 import buttonMenu from './buttons/buttonMenu.vue';
 import search from './search.vue';
 export default {
-  emits: ['search', 'change-width','selected-value', 'reset-all-pokemons'],
+  emits: ['search', 'change-width','selected-value', 'reset-all-pokemons', 'change-theme'],
   components: {
     buttonMenu,
     aleatoirePok,
@@ -19,7 +19,7 @@ export default {
     
     color: {
       type: String,
-      default: 'red'
+      default: 'purple'
     },
     bgMain: {
       type: String,
@@ -30,6 +30,11 @@ export default {
             required: true,
          },
 
+    theme: {
+      type:String,
+      default: 'dark'
+    }
+
   },
 
   data() {
@@ -37,7 +42,7 @@ export default {
       close: 'initial',
       //test: 'invisible',
       name: '',
-      typePok: ''
+      typePok: '',
     }
   },
   
@@ -63,6 +68,9 @@ export default {
     },
     resetAllPokemon(){
       this.$emit('reset-all-pokemons')
+    },
+    changeTheme(){
+     this.$emit('change-theme')
     }
   },
 
@@ -76,14 +84,17 @@ export default {
 <template>
   <div class="contain-podcast" :class="close">
     <div class="contain-title-podcast"><p>{{ typePok }}</p>
-      <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style="cursor:pointer; color: #fff;
-	font-size: 25px; padding: 1rem;"></i>
+      <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style='cursor:pointer; color: #fff;
+	  font-size: 25px; padding: 1rem;'></i>
     </div>
     <search @search="handleSearch" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse"  :rideau="rideau" :clear="clear"/>
     <aleatoirePok :apiResponse="apiResponse" /> <!--carte pokemon genéré aléatoirement-->
+    <button @click="changeTheme">Theme</button>
   </div>
 
-  <h2 @click="rideau" class="title-violet" style="position: fixed; z-index: 98;">Menu</h2>
+  <h2 @click="rideau" :class="color" style="position: fixed; z-index: 98;cursor: pointer; font-weight: bold;">Menu</h2>
+  
+
   
 </template>
 

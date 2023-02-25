@@ -1,13 +1,20 @@
 
 <template>
+  <div class="black">
    <div class="container">
         <div class="pika"></div>
         <div class="pika-talk"></div>
       </div>
-    
+    </div>  
 </template>
 
 <style scoped>
+
+.black{
+  /*background-color: black;*/
+  width: 100%;
+  height: 100vh;
+}
 
 /*w = 21*/
 /*h = 31*/

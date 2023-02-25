@@ -18,13 +18,15 @@ export default {
   data() {
     return {
       apiResponse: null, // API
-      titleColor2: 'rgb(46,47,117)',
       bgMain: 'bg-90',
       effect: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)', // effet rideau menu
       message: '',
       typePok: '',
       selectedItem: null,
-      showTable: false
+      showTable: false,
+      isLoading: true,
+      theme: 'light',
+      color: 'purple'
     }
   },
   computed: {
@@ -78,7 +80,13 @@ export default {
 
    resetAllPokemon(){
     this.typePok = ''
-   }
+   },
+
+   changeTheme(){
+      this.theme = this.theme === 'light' ?  'dark'  : 'light' ;
+      this.color = this.color == 'purple' ? 'white' : 'purple' ;
+      console.log(this.theme);
+    }
   },
 
   // set changement boolean showtable
@@ -87,7 +95,7 @@ export default {
 
   async mounted() { // API POKEMON
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000)); //Chargement d'une seconde optionnelle
+      //await new Promise(resolve => setTimeout(resolve, 1000000)); //Chargement d'une seconde optionnelle
       await axios.get('https://pokebuildapi.fr/api/v1/pokemon')
         .then(response => {
           this.apiResponse = response.data
@@ -96,28 +104,29 @@ export default {
       console.log(error)
     }
 
-  }
+  },
+
 }
 
 </script>
 
 <template>
-  <loading v-if="!apiResponse"/>
-  <div v-else>
+  <loading  v-if="!apiResponse" />
+  <div :class="theme" v-else>
   <header>
     <!--MENU-->
-    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" />
+    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" :theme="theme" @change-theme="changeTheme" :color="color"/>
   </header>
 
   <main :class="bgMain">
     <!--Fiche détaillé pokemon-->
     <cardPokemon id="targetElement" :apiResponse="apiResponse" v-show="showTable" :selectedItem="selectedItem"
-      :showTable="showTable" :clear="clear" />
+      :showTable="showTable" :clear="clear" :color="color" />
     <!--Liste complète pokemon-->
      
 
-    <allPokemon :message="message" :typePok="typePok" @search="searchPokemon" :color="titleColor2" :apiResponse="apiResponse"
-      @detail="addDetailPok" /> <!--Liste Pokemon-->
+    <allPokemon :message="message" :typePok="typePok" @search="searchPokemon"  :apiResponse="apiResponse"
+      @detail="addDetailPok" :color="color" /> <!--Liste Pokemon-->
 
   </main>
 </div>
@@ -140,6 +149,27 @@ export default {
 }
 
 
+.transition-loading{
+  animation: toprideau 1s ease-out;
+}
+
+
+
+
+
+@keyframes toprideau {
+  0% {
+
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+   
+  }
+
+  100% {
+   
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+  }
+}
 
 
 </style>

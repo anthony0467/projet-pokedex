@@ -26,6 +26,10 @@ export default {
             type: Function,
             required: true,
          },
+         color: {
+            type: String,
+            default: 'white'
+    },
 
     },
 
@@ -48,18 +52,18 @@ export default {
             <img :src="selectedItem?.image" :alt="selectedItem?.name" :title="selectedItem?.name">
         </div>
         <div class="flex-column-center">
-            <h3>{{ selectedItem?.name }}</h3>
-            <div><span>Types: {{ selectedItem?.apiTypes?.[0].name}}</span><span v-if="selectedItem?.apiTypes?.[1]?.name"> - {{
+            <h3 :class="color">{{ selectedItem?.name }}</h3>
+            <div :class="color"><span>Types: {{ selectedItem?.apiTypes?.[0].name}}</span><span v-if="selectedItem?.apiTypes?.[1]?.name"> - {{
                 selectedItem.apiTypes?.[1].name
             }}</span></div>
             <ul>
-                <li v-for="(value, key) in selectedItem?.stats">{{ key }} : {{ value }}</li>
+                <li :class="color" v-for="(value, key) in selectedItem?.stats">{{ key }} : {{ value }}</li>
             </ul>
         </div>
         <div class="flex-column-center">
-            <p style="font-weight: bold">Génération : {{ selectedItem?.apiGeneration }}</p>
+            <p :class="color" style="font-weight: bold">Génération : {{ selectedItem?.apiGeneration }}</p>
             <ul>
-                <li style="padding: 0.2rem 0" :class="[Resist?.damage_multiplier == 2 ? 'bg-red' : Resist?.damage_multiplier == 1 ? 'bg-grey' : 'bg-green']" v-for="Resist in selectedItem?.apiResistances">
+                <li style="padding: 0.2rem 0; border-radius: 20px; margin: .1rem" :class="[Resist?.damage_multiplier == 2 ? 'bg-red' : Resist?.damage_multiplier == 1 ? 'bg-grey' : 'bg-green']" v-for="Resist in selectedItem?.apiResistances">
                  {{ Resist?.name }} - {{ Resist?.damage_multiplier }}  - {{Resist?.damage_relation}} 
                 </li>
             </ul>
@@ -119,15 +123,15 @@ h3 {
 }
 
 .bg-red {
-    background-color: red;
+    background-color: #f71818cc;
 }
 
 .bg-grey {
-    background-color: rgba(161, 160, 160, 0.815);
+    background-color: rgb(161 160 160 / 60%);
 }
 
 .bg-green {
-    background-color: rgb(14, 174, 14);
+    background-color: rgb(22 205 22 / 57%);
 }
 
 .txt-center {

@@ -33,6 +33,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	font-family: 'Montserrat', sans-serif;
+	
 }
 
 main{
@@ -110,4 +111,21 @@ button{
 button:hover{
 	background-color: rgb(67, 68, 145);
 	transition: .35s;
+}
+
+
+.light{
+	background-color: #fff;
+}
+
+.dark{
+	background-color: #000;
+}
+
+.white{
+	color: #fff;
+}
+
+.purple{
+	color: rgb(46,47,117);
 }
