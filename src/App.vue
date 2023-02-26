@@ -1,18 +1,18 @@
 <script>
-import axios from 'axios'
+import axios from 'axios';
 import menuPod from './components/menuPod.vue';
 import allPokemon from './components/allPokemon.vue';
 import cardPokemon from './components/cardPokemon.vue';
 import loading from './components/loading.vue';
 import loadingAlternative from './components/loadingAlternative.vue';
 export default {
+  
   components: {
     menuPod,
     allPokemon,
     cardPokemon,
     loading,
-    loadingAlternative
-
+    loadingAlternative,
   },
 
   data() {
@@ -28,13 +28,6 @@ export default {
       theme: 'light',
       color: 'purple'
     }
-  },
-  computed: {
-    filterApi() {
-      return this.apiResponse.slice(0, 3)
-    },
-
-
   },
 
   methods: {
@@ -78,15 +71,19 @@ export default {
       this.typePok = value;
     },
 
-   resetAllPokemon(){
+   resetAllPokemon(){ // select tous
     this.typePok = ''
    },
 
-   changeTheme(){
+   changeTheme(){ // changement de theme sombre/clair
+      const body = document.querySelector('body');
+      body.classList.toggle('light');
+      body.classList.toggle('dark');
       this.theme = this.theme === 'light' ?  'dark'  : 'light' ;
       this.color = this.color == 'purple' ? 'white' : 'purple' ;
       console.log(this.theme);
-    }
+    },
+    
   },
 
   // set changement boolean showtable
@@ -107,6 +104,7 @@ export default {
   },
 
 }
+
 
 </script>
 

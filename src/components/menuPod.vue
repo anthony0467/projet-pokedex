@@ -89,7 +89,9 @@ export default {
     </div>
     <search @search="handleSearch" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse"  :rideau="rideau" :clear="clear"/>
     <aleatoirePok :apiResponse="apiResponse" /> <!--carte pokemon genéré aléatoirement-->
-    <button @click="changeTheme">Theme</button>
+    <button class="themeButton" @click="changeTheme">
+      <span v-if="theme == 'dark'"><p>Thème <i class="fa-regular fa-moon"></i></p></span>
+      <span v-else>Thème  <i class="fa-regular fa-sun"></i></span></button>
   </div>
 
   <h2 @click="rideau" :class="color" style="position: fixed; z-index: 98;cursor: pointer; font-weight: bold;">Menu</h2>
@@ -103,6 +105,10 @@ export default {
   .contain-podcast {
     width: 100%;
   }
+}
+
+i{
+  font-size: 15px;
 }
 
 .contain-podcast{
@@ -142,6 +148,10 @@ export default {
   font-weight: bold;
 }
 
+.themeButton{
+  background: none;
+}
+
 h2 {
   flex-grow: 1;
 }
@@ -161,6 +171,10 @@ li:hover {
   border-radius: 50px;
   background: rgb(67, 68, 145);
   transition: .35s;
+}
+
+button:hover span{
+font-weight: bold;
 }
 
 </style>

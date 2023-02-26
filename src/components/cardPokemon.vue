@@ -57,13 +57,13 @@ export default {
                 selectedItem.apiTypes?.[1].name
             }}</span></div>
             <ul>
-                <li :class="color" v-for="(value, key) in selectedItem?.stats">{{ key }} : {{ value }}</li>
+                <li :class="color" v-for="(value, key) in selectedItem?.stats">{{ key.toUpperCase().charAt(0) + key.slice(1).replaceAll('_', ' ') }} : {{ value }}</li>
             </ul>
         </div>
         <div class="flex-column-center">
             <p :class="color" style="font-weight: bold">Génération : {{ selectedItem?.apiGeneration }}</p>
             <ul>
-                <li style="padding: 0.2rem 0; border-radius: 20px; margin: .1rem" :class="[Resist?.damage_multiplier == 2 ? 'bg-red' : Resist?.damage_multiplier == 1 ? 'bg-grey' : 'bg-green']" v-for="Resist in selectedItem?.apiResistances">
+                <li style="padding: 0.2rem 0; border-radius: 20px; margin: .1rem" :class="[Resist?.damage_multiplier >= 2 ? 'bg-red' : Resist?.damage_multiplier == 1 ? 'bg-grey' : 'bg-green']" v-for="Resist in selectedItem?.apiResistances">
                  {{ Resist?.name }} - {{ Resist?.damage_multiplier }}  - {{Resist?.damage_relation}} 
                 </li>
             </ul>
