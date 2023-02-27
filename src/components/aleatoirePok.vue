@@ -2,9 +2,8 @@
 export default {
   props: {
     apiResponse: {
-      type: Array,
-      required: true,
-      default: () => []
+      type: null
+      
     },
     color: {
       type: String,

@@ -12,9 +12,7 @@ export default {
   },
   props: {
     apiResponse: {
-      type: Array,
-      required: true,
-      default: () => []
+     
     },
     
     color: {

@@ -8,9 +8,7 @@ export default {
     },
       props: {
         apiResponse: {
-            type: Array,
-            required: true,
-            default: () => []
+            type: null
         },
         
         selectedItem:{
@@ -36,8 +34,11 @@ export default {
     data() {
         return {
             effect: 'effet',
+          
         }
     },
+
+  
    
 }
 
@@ -121,6 +122,7 @@ h3 {
 
   }
 }
+
 
 .bg-red {
     background-color: #f71818cc;

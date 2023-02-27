@@ -3,9 +3,7 @@ export default {
   emits: ['search', 'detail'],
   props: {
     apiResponse: {
-      type: Array,
-      required: true,
-      default: () => []
+      type: null
     },
   
     color: {

@@ -2,9 +2,7 @@
 export default{
     props:{
         apiResponse: {
-            type: Array,
-            required: true,
-            default:() => []
+            type: null
         },
         
         rideau: {
@@ -52,7 +50,7 @@ export default{
     
     computed:{
         filterType(){ // set = récupérer valeur unique dans un tableau
-            return [...new Set(this.apiResponse.map(api => api.apiTypes[0].name))];
+            return [...new Set(this.apiResponse?.map(api => api?.apiTypes[0]?.name))];
          }
     }
          

@@ -4,7 +4,6 @@ import menuPod from './components/menuPod.vue';
 import allPokemon from './components/allPokemon.vue';
 import cardPokemon from './components/cardPokemon.vue';
 import loading from './components/loading.vue';
-import loadingAlternative from './components/loadingAlternative.vue';
 export default {
   
   components: {
@@ -12,7 +11,6 @@ export default {
     allPokemon,
     cardPokemon,
     loading,
-    loadingAlternative,
   },
 
   data() {
@@ -24,7 +22,7 @@ export default {
       typePok: '',
       selectedItem: null,
       showTable: false,
-      isLoading: true,
+      isContentLoaded: true,
       theme: 'light',
       color: 'purple'
     }
@@ -81,7 +79,6 @@ export default {
       body.classList.toggle('dark');
       this.theme = this.theme === 'light' ?  'dark'  : 'light' ;
       this.color = this.color == 'purple' ? 'white' : 'purple' ;
-      console.log(this.theme);
     },
     
   },
@@ -90,10 +87,10 @@ export default {
 
 
 
-  async mounted() { // API POKEMON
+ created() { // API POKEMON
     try {
-      //await new Promise(resolve => setTimeout(resolve, 1000000)); //Chargement d'une seconde optionnelle
-      await axios.get('https://pokebuildapi.fr/api/v1/pokemon')
+      //await new Promise(resolve => setTimeout(resolve, 2000)); //Chargement d'une seconde optionnelle
+      axios.get('https://pokebuildapi.fr/api/v1/pokemon')
         .then(response => {
           this.apiResponse = response.data
         })
@@ -103,14 +100,24 @@ export default {
 
   },
 
+  mounted() {
+    setTimeout(() => {
+      if(this.apiResponse){
+        this.isContentLoaded = false;
+      }
+    }, 3000)
+  }
+
+ 
+
 }
 
 
 </script>
 
 <template>
-  <loading  v-if="!apiResponse" />
-  <div :class="theme" v-else>
+  <loading  v-if="isContentLoaded" />
+  <div :class="[theme,  {'fade': !isContentLoaded} ]" v-else >
   <header>
     <!--MENU-->
     <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" :theme="theme" @change-theme="changeTheme" :color="color"/>
@@ -131,6 +138,10 @@ export default {
 </template>
 
 <style scoped>
+
+.loading{
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
 .effect {
   clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
   transition: .5s;
@@ -147,24 +158,25 @@ export default {
 }
 
 
-.transition-loading{
-  animation: toprideau 1s ease-out;
+.fade{
+  animation: fade  ease-out;
+  animation-duration: 2s;
 }
 
 
 
-
-
-@keyframes toprideau {
+@keyframes fade {
   0% {
 
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    opacity: 0;
+    
+    
    
   }
 
   100% {
    
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    opacity: 1;
 
   }
 }
