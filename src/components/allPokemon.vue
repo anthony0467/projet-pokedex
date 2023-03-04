@@ -82,11 +82,7 @@ export default {
 <template>
   <div class="container">
     <div class="zoom" v-for="api in filteredPokemon" :key="api" @click="addDetailPok(api)">
-      <picture>
-        <source :srcset="api.image.webp" type="image/webp">
-        <source :srcset="api.image.png" type="image/png">
-        <img style="max-width: 300px;" :src="api.image" :alt="api.name" :title="api.name">
-      </picture>
+        <img style="max-width: 300px;" :src="api.image" :alt="api.name" :title="api.name" loading="lazy" width="300" height="300">
       <h3 :style="{ color: color }">{{ api.name }}</h3>
      
    </div>
