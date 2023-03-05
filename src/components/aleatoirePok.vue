@@ -1,10 +1,7 @@
 <script>
+import { mapGetters } from 'vuex';
 export default {
   props: {
-    apiResponse: {
-      type: null
-      
-    },
     color: {
       type: String,
       default: 'white'
@@ -19,6 +16,8 @@ export default {
 
 
   computed: {
+    ...mapGetters(['apiResponse']), // API STORE
+
     randomNum() {
       return Math.floor(Math.random() * 897) + 1; // généré un nombre aléatoire entre 1 et 151;
     },

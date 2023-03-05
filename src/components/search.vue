@@ -1,9 +1,8 @@
 <script>
+import { mapGetters } from 'vuex';
 export default{
     props:{
-        apiResponse: {
-            type: null
-        },
+        
         
         rideau: {
             type: Function,
@@ -23,6 +22,7 @@ export default{
         }
     },
     methods:{
+       
         // recherché le pokemon en utilisant la data message 
         searchPok(){
             this.$emit('search',this.message)
@@ -49,6 +49,8 @@ export default{
     
     
     computed:{
+        ...mapGetters(['apiResponse']), // API STORE
+        
         filterType(){ // set = récupérer valeur unique dans un tableau
             return [...new Set(this.apiResponse?.map(api => api?.apiTypes[0]?.name))];
          }

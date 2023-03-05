@@ -11,10 +11,7 @@ export default {
     search
   },
   props: {
-    apiResponse: {
-     
-    },
-    
+  
     color: {
       type: String,
       default: 'purple'
@@ -85,8 +82,8 @@ export default {
       <h2>Pokédex</h2> - <i @click="rideau" class="fa-sharp fa-solid fa-xmark" style='cursor:pointer; color: #fff;
 	  font-size: 25px; padding: 1rem;'></i>
     </div>
-    <search @search="handleSearch" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse"  :rideau="rideau" :clear="clear"/>
-    <aleatoirePok :apiResponse="apiResponse" /> <!--carte pokemon genéré aléatoirement-->
+    <search @search="handleSearch" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :rideau="rideau" :clear="clear"/>
+    <aleatoirePok /> <!--carte pokemon genéré aléatoirement-->
     <button class="themeButton" @click="changeTheme">
       <span v-if="theme == 'dark'"><p>Thème <i class="fa-regular fa-moon"></i></p></span>
       <span v-else>Thème  <i class="fa-regular fa-sun"></i></span></button>

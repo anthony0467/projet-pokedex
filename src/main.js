@@ -1,24 +1,38 @@
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
 import App from './App.vue'
-/*
+
 const store = createStore({
     state () {
       return {
-        emptyArray: []
+        apiResponse: null
       }
     },
+    getters: {
+      apiResponse(state){
+        return state.apiResponse
+      },
+     /* getPoisonType(state){
+        return state.apiResponse.filter( pok => {
+          return pok.apiTypes.some(type => type.name === 'Poison')
+        })
+      }*/
+    },
     mutations: {
-        clear (state) {
-         state.emptyArray.splice(0,1)
-        }
+       SET_API_RESPONSE(state, data){
+        state.apiResponse = data
+       } 
+    },
+    actions: {
+      setApiResponse(context, data){
+        context.commit('SET_API_RESPONSE', data)
+      }
     }
   })
 
-  store.commit('emptyArray')
-  console.log(store.state.emptyArray)*/
+  
+  
 
 import './assets/main.css'
 
-createApp(App).mount('#app')
-//.use(store)
+createApp(App).use(store).mount('#app')

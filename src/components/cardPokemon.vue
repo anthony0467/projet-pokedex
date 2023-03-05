@@ -1,16 +1,13 @@
 <script>
 import clearButton from './buttons/clearButton.vue';
-
+import { mapGetters } from 'vuex';
 export default {
     name: "cardPokemon",
     components: {
         clearButton
     },
       props: {
-        apiResponse: {
-            type: null
-        },
-        
+       
         selectedItem:{
            
         },
@@ -38,8 +35,10 @@ export default {
         }
     },
 
-  
-   
+    computed:{
+        ...mapGetters(['apiResponse']), // API STORE
+    }
+ 
 }
 
 

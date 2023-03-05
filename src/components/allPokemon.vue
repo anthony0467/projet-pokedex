@@ -1,11 +1,10 @@
 <script>
+import { mapGetters } from 'vuex';
 export default {
+
   emits: ['search', 'detail'],
   props: {
-    apiResponse: {
-      type: null
-    },
-  
+    
     color: {
       type: String,
       default: 'white'
@@ -31,6 +30,7 @@ export default {
   },
 
   methods: {
+
     addDetailPok(api) { // ajout de ma fiche detaillé pokemon au clic
       this.$emit('detail', api)
     },
@@ -42,7 +42,12 @@ export default {
       this.typePok = typePok;
     }
   },
+ mounted() {
+  console.log(this.getPoisonType)
+ },
   computed:{
+    ...mapGetters(['apiResponse']), // API STORE
+
     // filtrer mes pokemons 
     filteredPokemon() {
       if(this.message){ // filtrer par recherche de nom 

@@ -1,4 +1,5 @@
 <script>
+import { mapGetters,mapActions } from 'vuex';
 import axios from 'axios';
 import menuPod from './components/menuPod.vue';
 import allPokemon from './components/allPokemon.vue';
@@ -15,7 +16,7 @@ export default {
 
   data() {
     return {
-      apiResponse: null, // API
+      //apiResponse: null, // API
       bgMain: 'bg-90',
       effect: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)', // effet rideau menu
       message: '',
@@ -28,7 +29,12 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters(['apiResponse']),
+  },
+
   methods: {
+    ...mapActions(['setApiResponse']),
 
     rideau() { // gerer la taille de ma balise main quand mon menu est ouvert ou fermé
       this.bgMain = this.bgMain === 'bg-90' ? 'bg-75' : 'bg-90';
@@ -39,7 +45,7 @@ export default {
       this.selectedItem = api
       this.showTable = true;
       // changement d'état au clic !!
-      this.$nextTick(() => {
+      this.$nextTick(() => { 
         this.scrollToItem();
       })
 
@@ -92,12 +98,12 @@ export default {
       //await new Promise(resolve => setTimeout(resolve, 2000)); //Chargement d'une seconde optionnelle
       axios.get('https://pokebuildapi.fr/api/v1/pokemon')
         .then(response => {
-          this.apiResponse = response.data
+          this.setApiResponse(response.data) // setApiResponse pour le store
         })
     } catch (error) {
       console.log(error)
     }
-
+    console.log('coucou')
   },
 
   mounted() {
@@ -120,20 +126,17 @@ export default {
   <div :class="[theme,  {'fade': !isContentLoaded} ]" v-else >
   <header>
     <!--MENU-->
-    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :apiResponse="apiResponse" :bg-main="bgMain" @change-width="rideau" :clear="clear" :theme="theme" @change-theme="changeTheme" :color="color"/>
+    <menuPod @search="searchPokemon" @selected-value="handleSelectedValue" @reset-all-pokemons="resetAllPokemon" :bg-main="bgMain" @change-width="rideau" :clear="clear" :theme="theme" @change-theme="changeTheme" :color="color"/>
   </header>
 
   <main :class="bgMain">
     <!--Fiche détaillé pokemon-->
-    <cardPokemon id="targetElement" :apiResponse="apiResponse" v-show="showTable" :selectedItem="selectedItem"
+    <cardPokemon id="targetElement" v-show="showTable" :selectedItem="selectedItem"
       :showTable="showTable" :clear="clear" :color="color" />
     <!--Liste complète pokemon-->
-     
-
-    <allPokemon :message="message" :typePok="typePok" @search="searchPokemon"  :apiResponse="apiResponse"
-      @detail="addDetailPok" :color="color" /> <!--Liste Pokemon-->
-
+    <allPokemon :message="message" :typePok="typePok" @search="searchPokemon" @detail="addDetailPok" :color="color" /> <!--Liste Pokemon-->
   </main>
+
 </div>
 </template>
 
