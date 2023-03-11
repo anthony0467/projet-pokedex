@@ -44,7 +44,7 @@ export default {
     }
   },
 
-  mounted() { // effet scrolling 
+  /*mounted() { // effet scrolling 
   ScrollReveal().reveal('.my-element', {
     duration: 1000,
     delay: 400,
@@ -55,7 +55,7 @@ export default {
     scale: 0.9,
     mobile: false
   });
-},
+},*/
   computed:{
     ...mapGetters(['apiResponse']), // API STORE
 
