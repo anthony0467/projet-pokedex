@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import ScrollReveal from 'scrollreveal';
 export default {
 
   emits: ['search', 'detail'],
@@ -42,9 +43,19 @@ export default {
       this.typePok = typePok;
     }
   },
- mounted() {
-  console.log(this.getPoisonType)
- },
+
+  mounted() { // effet scrolling 
+  ScrollReveal().reveal('.my-element', {
+    duration: 1000,
+    delay: 400,
+    origin: 'bottom',
+    distance: '20px',
+    easing: 'cubic-bezier(0.5, 0, 0, 1)',
+    opacity: 0,
+    scale: 0.9,
+    mobile: false
+  });
+},
   computed:{
     ...mapGetters(['apiResponse']), // API STORE
 
@@ -82,11 +93,12 @@ export default {
 
 }
 
+
 </script>
 
 <template>
   <div class="container">
-    <div class="zoom" v-for="api in filteredPokemon" :key="api" @click="addDetailPok(api)">
+    <div class="zoom my-element sr" v-for="api in filteredPokemon" :key="api" @click="addDetailPok(api)">
         <img style="max-width: 300px;" :src="api.image" :alt="api.name" :title="api.name" loading="lazy" width="300" height="300">
       <h3 :style="{ color: color }">{{ api.name }}</h3>
      

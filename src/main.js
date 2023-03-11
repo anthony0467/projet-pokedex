@@ -30,8 +30,7 @@ const store = createStore({
     }
   })
 
-  
-  
+
 
 import './assets/main.css'
 
